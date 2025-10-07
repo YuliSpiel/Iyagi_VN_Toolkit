@@ -1,0 +1,22 @@
+fileFormatVersion: 2
+guid: d46768cd9404741a6b56f136e44fe03d
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontNames:
+  - Paperlogy
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 9228f8030868a4ea59b8e85064918cdc, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
