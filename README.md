@@ -6,6 +6,7 @@
 ---
 
 ## Overview
+![Preview](Docs/preview.gif)
 
 **Iyagi_VN_Toolkit** is a Unity toolkit designed for fast and flexible **visual novel prototyping** using Google Spreadsheets.
 It allows you to write dialogue, choices, background changes, and simple events directly in Google Sheets — then automatically parses and displays them in Unity.
