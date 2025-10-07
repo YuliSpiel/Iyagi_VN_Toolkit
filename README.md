@@ -12,9 +12,19 @@ It allows you to write dialogue, choices, background changes, and simple events 
 
 This system is easily extendable, making it ideal for both beginners and advanced users who want to manage dialogue and scenario data outside of Unity.
 
+
 > For questions or suggestions, please contact **[juliyooni@gmail.com](mailto:juliyooni@gmail.com)**
 
 ---
+
+## 💾 Download
+
+You can download the [**Iyagi_VN_Toolkit v0.8.0 (Beta)**](https://drive.google.com/file/d/1doJzbcvUyqkv5amNIBqWqLf6a9bxJKvr/view?usp=drive_link) as a compressed Unity project package.
+
+
+
+⚠️ Note: After downloading, extract the folder and open it in Unity 2022.3.4f1 or newer.
+Make sure to allow Unity to re-import assets on first launch (this may take a few minutes).
 
 ## Version Info
 
