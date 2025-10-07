@@ -118,9 +118,9 @@ public class DialogueSystem : MonoBehaviour
         };
 
         // 시트 컬럼: C1KOR / C2KOR / C3KOR (언어별)
-        string c1 = currentRecord.GetFirst($"C1{suffix}");
-        string c2 = currentRecord.GetFirst($"C2{suffix}");
-        string c3 = currentRecord.GetFirst($"C3{suffix}");
+        string c1 = currentRecord.GetFirst($"C1_{suffix}");
+        string c2 = currentRecord.GetFirst($"C2_{suffix}");
+        string c3 = currentRecord.GetFirst($"C3_{suffix}");
 
         bool hasAnyChoice = !string.IsNullOrEmpty(c1) || !string.IsNullOrEmpty(c2) || !string.IsNullOrEmpty(c3);
         if (!hasAnyChoice)

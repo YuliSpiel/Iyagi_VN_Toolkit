@@ -4202,6 +4202,22 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8825019650048834573, guid: c7a349e3b0919084eb96c47dc4471222, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 07f31b6369eae4c109b5df1ae0f2a601, type: 3}
+    - target: {fileID: 8825019650048834573, guid: c7a349e3b0919084eb96c47dc4471222, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8825019650048834573, guid: c7a349e3b0919084eb96c47dc4471222, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8825019650048834573, guid: c7a349e3b0919084eb96c47dc4471222, type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 6856568088356059958, guid: c7a349e3b0919084eb96c47dc4471222, type: 3}

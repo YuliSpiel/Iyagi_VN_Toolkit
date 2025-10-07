@@ -63,21 +63,20 @@ public class DialogueRecord
     {
         switch (lang)
         {
-            case GameLanguage.English: return FirstNonEmpty(Get("ENG"), Get("EN"), Get("Text_EN"), Get("Text_ENG"));
-            case GameLanguage.Japanese: return FirstNonEmpty(Get("JPN"), Get("JP"), Get("Text_JP"), Get("Text_JPN"));
-            default:   return FirstNonEmpty(Get("KR"),  Get("KO"), Get("Text_KR"));
+            case GameLanguage.English: return FirstNonEmpty(Get("ENG"), Get("EN"), Get("ParsedLine_ENG"));
+            default:   return FirstNonEmpty(Get("KOR"),  Get("KR"), Get("ParsedLine_KOR"));
         }
     }
 
     /// <summary>선택지 텍스트(언어별) 폴백 포함</summary>
     public string GetChoiceText(int idx, GameLanguage lang)
     {
-        string baseKey = $"Choice{idx}";
+        string baseKey = $"Choice_{idx}";
         switch (lang)
         {
             case GameLanguage.English: return FirstNonEmpty(Get($"{baseKey}_ENG"), Get($"{baseKey}_EN"), Get(baseKey));
             case GameLanguage.Japanese: return FirstNonEmpty(Get($"{baseKey}_JPN"), Get($"{baseKey}_JP"), Get(baseKey));
-            default:   return FirstNonEmpty(Get($"{baseKey}_KR"),  Get($"{baseKey}_KO"), Get(baseKey));
+            default:   return FirstNonEmpty(Get($"{baseKey}_KOR"),  Get($"{baseKey}_KO"), Get(baseKey));
         }
     }
 
@@ -99,31 +98,28 @@ public class DialogueRecord
         // 하드코딩된 스피커 이름 매핑
         switch (key)
         {
-            case "sasha":
+            case "hans":
                 return lang switch
                 {
-                    GameLanguage.Korean  => "사샤",
-                    GameLanguage.English => "Sasha",
-                    GameLanguage.Japanese=> "サーシャ",
-                    _ => "Sasha"
+                    GameLanguage.Korean  => "한스",
+                    GameLanguage.English => "Hans",
+                    _ => "Hans"
                 };
             
-            case "edan":
+            case "heilner":
                 return lang switch
                 {
-                    GameLanguage.Korean  => "에단",
-                    GameLanguage.English => "Edan",
-                    GameLanguage.Japanese=> "エダン",
-                    _ => "Edan"
+                    GameLanguage.Korean  => "하일너",
+                    GameLanguage.English => "Heilner",
+                    _ => "Heilner"
                 };
             
-            case "sion":
+            case "principal":
                 return lang switch
                 {
-                    GameLanguage.Korean  => "시온",
-                    GameLanguage.English => "Sion",
-                    GameLanguage.Japanese=> "シオン",
-                    _ => "Sion"
+                    GameLanguage.Korean  => "교장",
+                    GameLanguage.English => "Principal",
+                    _ => "Principal"
                 };
 
             case "narrator":
@@ -132,7 +128,6 @@ public class DialogueRecord
                 {
                     GameLanguage.Korean  => "나레이터",
                     GameLanguage.English => "Narrator",
-                    GameLanguage.Japanese=> "ナレーター",
                     _ => "Narrator"
                 };
 
@@ -147,30 +142,19 @@ public class DialogueRecord
     private string FirstNonEmpty(params string[] arr)
         => arr?.FirstOrDefault(s => !string.IsNullOrEmpty(s)) ?? string.Empty;
 
-    // /// <summary>입력 언어코드를 표준화(KR/EN/JP/DE)</summary>
-    // private string NormLang(string lang)
+    // /// <summary>표준 언어코드에 대한 별칭 목록 반환. 우선순위 높은 순.</summary>
+    // private IReadOnlyList<string> LangAliases(string std)
     // {
-    //     var L = (lang ?? "KR").Trim().ToUpperInvariant();
-    //     if (L is "KO") return "KR";
-    //     if (L is "EN" or "ENG") return "EN";
-    //     if (L is "JP" or "JPN") return "JP";
-    //     if (L is "DE" or "GER") return "DE";
-    //     return (L.Length == 0) ? "KR" : L;
+    //     switch (std)
+    //     {
+    //         case "EN": return _en;
+    //         case "JP": return _jp;
+    //         case "DE": return _de;
+    //         default:   return _kr;
+    //     }
     // }
 
-    /// <summary>표준 언어코드에 대한 별칭 목록 반환. 우선순위 높은 순.</summary>
-    private IReadOnlyList<string> LangAliases(string std)
-    {
-        switch (std)
-        {
-            case "EN": return _en;
-            case "JP": return _jp;
-            case "DE": return _de;
-            default:   return _kr;
-        }
-    }
-
-    private static readonly string[] _kr = { "KR", "KO" };
+    private static readonly string[] _kr = { "KOR", "KR" };
     private static readonly string[] _en = { "ENG", "EN" };
     private static readonly string[] _jp = { "JPN", "JP" };
     private static readonly string[] _de = { "GER", "DE" };
