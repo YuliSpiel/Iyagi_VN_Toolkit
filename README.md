@@ -16,6 +16,23 @@ This system is easily extendable, making it ideal for both beginners and advance
 
 ---
 
+## Version Info
+
+**Current Version:** v0.8.0 (Beta)
+
+* **Implemented Features**
+  - CSV-based dialogue parser  
+  - Multi-language localization (KR/EN, partial UI support)  
+  - BGM / SFX event triggers  
+  - Choice branching system  
+
+* **In Progress**
+  - Save / Load system (basic data structure ready)  
+  - Editor integration for custom events  
+
+---
+
+
 ## ⚙️ Environment
 
 * **Unity**: 2022.3.4f1
@@ -129,3 +146,11 @@ This system is easily extendable, making it ideal for both beginners and advance
 > **MIT License**
 > Free to modify and use for personal or commercial projects.
 > Attribution is appreciated but not required.
+
+---
+
+## 🎧 Audio Credits
+Sound effects obtained from Freesound.org under the Creative Commons Attribution (CC BY 4.0) License.  
+- Gavel by Science_Witch -- https://freesound.org/s/762733/ -- License: Attribution 4.0
+- Berland River 210818-T010.wav by Robert.Crosley -- https://freesound.org/s/634810/ -- License: Attribution 4.0
+

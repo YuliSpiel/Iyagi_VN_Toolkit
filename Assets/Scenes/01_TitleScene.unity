@@ -3835,6 +3835,14 @@ PrefabInstance:
       propertyPath: _bgms.Array.data[2]
       value: 
       objectReference: {fileID: 8300000, guid: 8e3e2e4d9fd8c47c294f01f1e6c2ec4d, type: 3}
+    - target: {fileID: 6700119447651348508, guid: 0a1ad704950324097bf46c058d397110, type: 3}
+      propertyPath: _sfxs.Array.data[1]
+      value: 
+      objectReference: {fileID: 8300000, guid: be1e2912df5b947f6a6dd61470a310d0, type: 3}
+    - target: {fileID: 6700119447651348508, guid: 0a1ad704950324097bf46c058d397110, type: 3}
+      propertyPath: _sfxs.Array.data[2]
+      value: 
+      objectReference: {fileID: 8300000, guid: 044dee0649baf489ab59e192b401f243, type: 3}
     - target: {fileID: 8037703596693650770, guid: 0a1ad704950324097bf46c058d397110, type: 3}
       propertyPath: m_Name
       value: SoundManager

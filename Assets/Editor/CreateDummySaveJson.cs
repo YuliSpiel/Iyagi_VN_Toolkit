@@ -20,14 +20,8 @@ public static class CreateDummySaveJson
             SaveDataBlock block = new SaveDataBlock();
             block.Stats = new PlayerStats
             {
-                Yeom = Random.Range(1, 9),
-                Sinche = Random.Range(1, 9),
-                Jineung = Random.Range(1, 9),
-                Insung = Random.Range(1, 9),
-                Jikkam = Random.Range(1, 9),
-                Luck = Random.Range(1, 9),
-                Sanity = Random.Range(0, 100),
-                EXP = (i + 1) * 100
+                Obedience = Random.Range(1, 9),
+                Will = Random.Range(1, 9),
             };
 
             block.Chapter = new ChapterProgress

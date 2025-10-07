@@ -9,33 +9,8 @@ using UnityEngine.Serialization;
 // 주인공의 능력치 6종류. 초기 값은 각각 2~4이나, 경험치를 이용해 최대 8까지 스텟을 올릴 수 있다.
 public class PlayerStats
 {
-    // private int _yeom;
-    // public int Yeom
-    // {
-    //     get { return _yeom; }
-    //     set
-    //     {
-    //         if (value > 8)
-    //         {
-    //             throw new ArgumentOutOfRangeException("value", "value must be between 0 and 8");
-    //             value = 8;
-    //         }
-    //
-    //         else
-    //         {
-    //             _yeom = value;
-    //         }
-    //     }
-    // }
-    public int Yeom;
-    public int Sinche;
-    public int Jineung;
-    public int Insung;
-    public int Jikkam;
-    public int Luck;
-    
-    public int Sanity;
-    public int EXP;
+    public int Obedience;
+    public int Will;
 }
 
 [System.Serializable]
@@ -51,36 +26,6 @@ public class ChapterThumbnails : ScriptableObject
 {
     public List<Sprite> thumbnailList;
 }
-
-// [System.Serializable]
-// public static class ChapterInfo
-// {
-//     public static Dictionary<int, string> Chapters = new Dictionary<int, string>()
-//     {
-//         { 1, "빨간 딸기" },
-//         { 2, "노란 꽃" },
-//         { 3, "주황 당근" },
-//         { 4, "보라 하트" },
-//         { 5, "파란 고래" },
-//         { 6, "초록 개구리"},
-//         { 7, "빨간 사과" },
-//         { 8, "노란 병아리" },
-//         { 9, "보라 버섯" },
-//         { 10, "주황 사탕" },
-//         { 11, "초록 잎" },
-//         { 12, "노란 별"},
-//     };
-//     
-//     public static Dictionary<int, Sprite> ChapterImgs = new Dictionary<int, Sprite>();
-//
-//     public static void ImgsInit(ChapterThumbnails thumbnails)
-//     {
-//         for (int i = 0; i<thumbnails.thumbnailList.Count; i++)
-//         {
-//             ChapterImgs[i]  = thumbnails.thumbnailList[i];
-//         }
-//     }
-// }
 
 [System.Serializable]
 // 저장할 데이터 블록입니다.

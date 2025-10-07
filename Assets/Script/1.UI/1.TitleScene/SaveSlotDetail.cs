@@ -51,8 +51,7 @@ public class SaveSlotDetail : MonoBehaviour
         image.sprite = DataManager.Instance.ChapterImgs[data.Chapter.CurChapter];
         chapterText.text = $"CH{data.Chapter.CurChapter:D2}. " + DataManager.Instance.ChapterNames[data.Chapter.CurChapter];  // 인덱스로 챕터 표시
         saveTimeText.text = DateTime.Parse(data.SaveTime).ToString("yyyy.MM.dd HH:mm");
-        statText.text = $"염력: {data.Stats.Yeom} 지능: {data.Stats.Jineung}\n직감: {data.Stats.Jikkam} 신체: {data.Stats.Sinche}\n인성: {data.Stats.Insung}  행운: {data.Stats.Luck}";
-        sanityText.text = $"{data.Stats.Sanity}";
+        statText.text = $"Obedience: {data.Stats.Obedience} Will: {data.Stats.Will}\n";
         
         // 슬롯 눌렀을 때 실행할 동작 연결
         slotButton.onClick.RemoveAllListeners();  // 중복 방지

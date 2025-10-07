@@ -127,34 +127,6 @@ public class DataManager : MonoBehaviour
             SaveAll();
         }
     }
-    
-    // 테스트용 더미데이터 생성 로직
-    void Test1()
-    {
-        SaveData.Blocks.Clear();
-        
-        for (int i = 0; i < 10; i++)
-        {
-            SaveData.Blocks.Add(new SaveDataBlock());
-            var block = SaveData.Blocks[i];
-            block.Stats = new PlayerStats()
-            {
-                Yeom = Random.Range(1, 9),
-                Sinche = Random.Range(1, 9),
-                Jineung = Random.Range(1, 9),
-                Insung = Random.Range(1, 9),
-                Jikkam = Random.Range(1, 9),
-                Luck = Random.Range(1, 9),
-                Sanity = Random.Range(0, 100)
-            };
-            block.Chapter = new ChapterProgress()
-            {
-                CurChapter = Random.Range(1, 13),
-                CurIndex = Random.Range(1, 21),
-            };
-            block.SaveTime = DateTime.Now.ToString();
-        }
-    }
 
     public IEnumerator ImgsInit()
     {
