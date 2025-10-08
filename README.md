@@ -3,7 +3,6 @@
 > Create your own **visual novel** with **Google Sheets**.
 > *Iyagi (이야기, meaning story in Korean)* is a lightweight Unity toolkit for building narrative experiences through data-driven design.
 
----
 
 ## Overview
 ![Preview](Docs/preview.gif)
@@ -16,7 +15,7 @@ This system is easily extendable, making it ideal for both beginners and advance
 
 > For questions or suggestions, please contact **[juliyooni@gmail.com](mailto:juliyooni@gmail.com)**
 
----
+
 
 ## 💾 Download
 
@@ -41,15 +40,12 @@ Make sure to allow Unity to re-import assets on first launch (this may take a fe
   - Save / Load system (basic data structure ready)  
   - Editor integration for custom events  
 
----
-
 
 ## ⚙️ Environment
 
 * **Unity**: 2022.3.4f1
 * **Google Sheets**: CSV publishing feature enabled
 
----
 
 ## How to Use
 
@@ -79,7 +75,6 @@ Make sure to allow Unity to re-import assets on first launch (this may take a fe
    * Save your project, restart Unity, and open `01_TitleScene`
    * Press **Play** to start your own story 🎬
 
----
 
 ## Sheet Structure
 
@@ -97,8 +92,6 @@ Make sure to allow Unity to re-import assets on first launch (this may take a fe
 | BG             | ✅        | council  | Background image name (in `Resources/Image/BG`)    |
 | Auto           | ✅        | FALSE    | Skip player input and auto-continue dialogue       |
 
----
-
 ### 🔀 Choices
 
 | Column     | Required | Example           | Description                             |
@@ -110,7 +103,6 @@ Make sure to allow Unity to re-import assets on first launch (this may take a fe
 | C1_ENG     | Auto     | “Ignore him.”     | Parsed choice 1 text actually used by Unity                    |
 | C2_ENG     | Auto     | “Greet brightly.” | Parsed choice 2 text actually used by Unity                   |
 
----
 
 ### 👥 Character Standing Images
 
@@ -127,7 +119,6 @@ Make sure to allow Unity to re-import assets on first launch (this may take a fe
 >   **Canvas → DialogueUI (Inspector)** in `02_GameScene`.
 >   ![dialogue\_ui\_example](Docs/standing_info.png)
 
----
 
 ### 🎬 Event Triggers
 
@@ -141,8 +132,6 @@ Make sure to allow Unity to re-import assets on first launch (this may take a fe
 > ![event\_trigger](Docs/event_trigger_instruction.png)
 > Extend freely to create custom events as needed.
 
----
-
 
 ## 🛠️ Contribution & Support
 
@@ -150,15 +139,12 @@ Make sure to allow Unity to re-import assets on first launch (this may take a fe
 * Contact: **[juliyooni@gmail.com](mailto:juliyooni@gmail.com)**
 * When reporting bugs, please attach screenshots and clear steps to reproduce.
 
----
-
 ## License
 
 > **MIT License**
 > Free to modify and use for personal or commercial projects.
 > Attribution is appreciated but not required.
 
----
 
 ## 🎧 Audio Credits
 Sound effects obtained from Freesound.org under the Creative Commons Attribution (CC BY 4.0) License.  
