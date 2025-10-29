@@ -1,18 +1,14 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEditor;
 using TMPro;
 
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
-
 /// <summary>
-/// LLM 씬을 빠르게 설정하기 위한 헬퍼 스크립트
-/// Unity Editor에서 메뉴를 통해 자동으로 기본 구조를 생성합니다.
+/// LLM 씬을 빠르게 설정하기 위한 Unity Editor 메뉴
+/// GameObject > Iyagi VN Toolkit 메뉴에서 접근 가능
 /// </summary>
-public class QuickSetupHelper : MonoBehaviour
+public class LLMSetupMenus
 {
-#if UNITY_EDITOR
     [MenuItem("GameObject/Iyagi VN Toolkit/Create LLM Game System", false, 10)]
     static void CreateLLMGameSystem()
     {
@@ -44,14 +40,14 @@ public class QuickSetupHelper : MonoBehaviour
         }
 
         Selection.activeGameObject = llmSystem;
-        Debug.Log("[QuickSetup] LLMGameSystem created! Don't forget to set your API Key in the LLMStoryGenerator component.");
+        Debug.Log("[LLM Setup] LLMGameSystem created! Don't forget to set your API Key in the LLMStoryGenerator component.");
     }
 
     [MenuItem("GameObject/Iyagi VN Toolkit/Create Input Panel UI", false, 11)]
     static void CreateInputPanelUI()
     {
         // Canvas 찾기 또는 생성
-        Canvas canvas = FindObjectOfType<Canvas>();
+        Canvas canvas = Object.FindObjectOfType<Canvas>();
         if (canvas == null)
         {
             GameObject canvasObj = new GameObject("Canvas");
@@ -65,7 +61,7 @@ public class QuickSetupHelper : MonoBehaviour
             canvasObj.AddComponent<GraphicRaycaster>();
 
             // EventSystem 생성
-            if (FindObjectOfType<UnityEngine.EventSystems.EventSystem>() == null)
+            if (Object.FindObjectOfType<UnityEngine.EventSystems.EventSystem>() == null)
             {
                 GameObject eventSystem = new GameObject("EventSystem");
                 eventSystem.AddComponent<UnityEngine.EventSystems.EventSystem>();
@@ -198,23 +194,24 @@ public class QuickSetupHelper : MonoBehaviour
         statusRect.anchoredPosition = new Vector2(0, 40);
 
         Selection.activeGameObject = inputPanel;
-        Debug.Log("[QuickSetup] Input Panel UI created! Connect it to LLMGameController.");
+        Debug.Log("[LLM Setup] Input Panel UI created! Connect it to LLMGameController.");
     }
 
-    [MenuItem("GameObject/Iyagi VN Toolkit/Setup Existing DialogueUI for LLM", false, 12)]
-    static void SetupExistingDialogueUI()
+    [MenuItem("GameObject/Iyagi VN Toolkit/Find Existing DialogueUI", false, 12)]
+    static void FindExistingDialogueUI()
     {
-        DialogueUI dialogueUI = FindObjectOfType<DialogueUI>();
+        DialogueUI dialogueUI = Object.FindObjectOfType<DialogueUI>();
 
         if (dialogueUI == null)
         {
             EditorUtility.DisplayDialog("DialogueUI Not Found",
-                "No DialogueUI component found in the scene. Please create one first or use the existing game scene's DialogueUI.",
+                "No DialogueUI component found in the scene.\n\n" +
+                "Please open a game scene that has DialogueUI, or create a new one manually.",
                 "OK");
             return;
         }
 
-        // DialogueUI가 이미 있다면 선택
+        // DialogueUI 선택
         Selection.activeGameObject = dialogueUI.gameObject;
 
         EditorUtility.DisplayDialog("DialogueUI Found",
@@ -223,7 +220,7 @@ public class QuickSetupHelper : MonoBehaviour
             "Required components:\n" +
             "- dialogueText\n" +
             "- speakerText\n" +
-            "- choice1/2/3\n" +
+            "- choice1/2/3 buttons\n" +
             "- StandingImg1/2\n" +
             "- BGImage",
             "OK");
@@ -232,12 +229,14 @@ public class QuickSetupHelper : MonoBehaviour
     [MenuItem("GameObject/Iyagi VN Toolkit/Auto-Connect LLM Components", false, 13)]
     static void AutoConnectComponents()
     {
-        LLMGameController controller = FindObjectOfType<LLMGameController>();
+        LLMGameController controller = Object.FindObjectOfType<LLMGameController>();
 
         if (controller == null)
         {
             EditorUtility.DisplayDialog("LLMGameController Not Found",
-                "No LLMGameController found in the scene. Please create LLM Game System first.",
+                "No LLMGameController found in the scene.\n\n" +
+                "Please create LLM Game System first using:\n" +
+                "GameObject > Iyagi VN Toolkit > Create LLM Game System",
                 "OK");
             return;
         }
@@ -260,7 +259,7 @@ public class QuickSetupHelper : MonoBehaviour
         // DialogueUI 찾기
         if (controller.dialogueUI == null)
         {
-            controller.dialogueUI = FindObjectOfType<DialogueUI>();
+            controller.dialogueUI = Object.FindObjectOfType<DialogueUI>();
             if (controller.dialogueUI != null) changed = true;
         }
 
@@ -299,7 +298,7 @@ public class QuickSetupHelper : MonoBehaviour
         if (changed)
         {
             EditorUtility.SetDirty(controller);
-            Debug.Log("[QuickSetup] Auto-connected components to LLMGameController.");
+            Debug.Log("[LLM Setup] Auto-connected components to LLMGameController.");
 
             Selection.activeGameObject = controller.gameObject;
 
@@ -316,5 +315,4 @@ public class QuickSetupHelper : MonoBehaviour
                 "OK");
         }
     }
-#endif
 }
