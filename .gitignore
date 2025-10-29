@@ -74,3 +74,6 @@ crashlytics-build.properties
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
 /[Aa]ssets/[Rr]esources/ThirdPartyAssets
+
+# 맥 설정 파일
+/.DS_Store
