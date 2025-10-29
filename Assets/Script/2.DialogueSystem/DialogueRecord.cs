@@ -91,9 +91,11 @@ public class DialogueRecord
 
         if (string.IsNullOrEmpty(key))
             return "";
-        
-        // 현재 게임 언어 가져오기
-        var lang = GameManager.Instance.CurrentLanguage;
+
+        // 현재 게임 언어 가져오기 (GameManager 없으면 기본 영어)
+        var lang = GameManager.Instance != null
+            ? GameManager.Instance.CurrentLanguage
+            : GameLanguage.English;
 
         // 하드코딩된 스피커 이름 매핑
         switch (key)
