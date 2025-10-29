@@ -76,4 +76,4 @@ crashlytics-build.properties
 /[Aa]ssets/[Rr]esources/ThirdPartyAssets
 
 # 맥 설정 파일
-/.DS_Store
+.DS_Store
