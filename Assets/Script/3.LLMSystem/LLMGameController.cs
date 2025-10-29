@@ -316,26 +316,33 @@ public class LLMGameController : MonoBehaviour
     private void ShowChoices(DialogueRecord record)
     {
         var lang = GameManager.Instance.CurrentLanguage;
-        List<string> choices = new List<string>();
 
-        for (int i = 1; i <= 3; i++)
-        {
-            string choiceText = record.GetChoiceText(i, lang);
-            if (!string.IsNullOrEmpty(choiceText))
-            {
-                choices.Add(choiceText);
-            }
-        }
+        string choice1Text = record.GetChoiceText(1, lang);
+        string choice2Text = record.GetChoiceText(2, lang);
+        string choice3Text = record.GetChoiceText(3, lang);
 
-        if (choices.Count > 0 && dialogueUI != null)
+        if (dialogueUI != null)
         {
-            dialogueUI.ShowChoices(choices.ToArray(), OnChoiceSelected);
+            dialogueUI.SetupChoices(
+                choice1Text,
+                choice2Text,
+                choice3Text,
+                () => OnChoiceSelected(0),
+                () => OnChoiceSelected(1),
+                () => OnChoiceSelected(2)
+            );
         }
     }
 
     private void OnChoiceSelected(int choiceIndex)
     {
         Debug.Log($"[LLMGameController] Choice {choiceIndex + 1} selected");
+
+        // 선택지 숨김
+        if (dialogueUI != null)
+        {
+            dialogueUI.HideChoices();
+        }
 
         // 선택지 선택 후 다음 대사로 진행
         // 현재는 단순히 다음 대사로 이동하지만,
