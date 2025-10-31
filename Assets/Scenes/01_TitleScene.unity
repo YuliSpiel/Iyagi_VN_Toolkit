@@ -2497,9 +2497,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5e0b06f45cfe5d4d91b1531f1139f1c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  useOnlineSheetInEditor: 1
+  useOnlineSheetInEditor: 0
   loader: {fileID: 1241759065}
-  resourcesPath: dialogue
+  resourcesPath: Scenario/testSheet
 --- !u!4 &1241759067
 Transform:
   m_ObjectHideFlags: 0
