@@ -17,7 +17,15 @@ public class LLMStoryGenerator : MonoBehaviour
         Anthropic
     }
 
-    [Header("API Settings")]
+    [Header("Configuration")]
+    [Tooltip("자동으로 Resources/LLMConfig에서 설정을 로드합니다. 비어있으면 자동 로드됩니다.")]
+    public LLMConfig config;
+
+    [Header("Runtime Override (Optional)")]
+    [Tooltip("런타임에서 config 대신 이 값들을 사용하려면 설정하세요")]
+    public bool useOverride = false;
+
+    [Header("API Settings (Override Only)")]
     public LLMProvider provider = LLMProvider.OpenAI;
 
     [Tooltip("OpenAI: sk-..., Anthropic: sk-ant-...")]
@@ -32,7 +40,7 @@ public class LLMStoryGenerator : MonoBehaviour
     [Range(100, 4000)]
     public int maxTokens = 1000;
 
-    [Header("Available Resources")]
+    [Header("Available Resources (Override Only)")]
     [Tooltip("사용 가능한 캐릭터 목록")]
     public List<string> availableCharacters = new List<string> { "Hans", "Heilner" };
 
@@ -41,6 +49,15 @@ public class LLMStoryGenerator : MonoBehaviour
 
     [Tooltip("사용 가능한 표정/포즈 목록")]
     public List<string> availableLooks = new List<string> { "Normal_Normal" };
+
+    private void Awake()
+    {
+        // config가 설정되지 않았으면 자동으로 로드
+        if (config == null && !useOverride)
+        {
+            config = LLMConfig.LoadConfig();
+        }
+    }
 
     private const string OPENAI_URL = "https://api.openai.com/v1/chat/completions";
     private const string ANTHROPIC_URL = "https://api.anthropic.com/v1/messages";
@@ -59,21 +76,26 @@ public class LLMStoryGenerator : MonoBehaviour
 
     private IEnumerator GenerateStoryCoroutine(string userPrompt, string previousContext, Action<string> onSuccess, Action<string> onError)
     {
-        if (string.IsNullOrEmpty(apiKey))
+        // config 또는 override 값 사용
+        string currentApiKey = useOverride ? apiKey : (config != null ? config.apiKey : "");
+
+        if (string.IsNullOrEmpty(currentApiKey))
         {
-            onError?.Invoke("API Key is not set. Please configure it in the Inspector.");
+            onError?.Invoke("API Key is not set. Please configure LLMConfig in Resources folder or enable useOverride.");
             yield break;
         }
+
+        LLMProvider currentProvider = useOverride ? provider : (config != null ? config.provider : LLMProvider.OpenAI);
 
         string systemPrompt = BuildSystemPrompt();
         string fullPrompt = BuildFullPrompt(userPrompt, previousContext);
 
-        Debug.Log($"[LLMStoryGenerator] Sending request to {provider}...");
+        Debug.Log($"[LLMStoryGenerator] Sending request to {currentProvider}...");
         Debug.Log($"Prompt: {fullPrompt}");
 
         UnityWebRequest request = null;
 
-        switch (provider)
+        switch (currentProvider)
         {
             case LLMProvider.OpenAI:
                 request = CreateOpenAIRequest(systemPrompt, fullPrompt);
@@ -102,7 +124,7 @@ public class LLMStoryGenerator : MonoBehaviour
             string responseText = request.downloadHandler.text;
             Debug.Log($"[LLMStoryGenerator] Response: {responseText}");
 
-            string storyJson = ExtractStoryFromResponse(responseText);
+            string storyJson = ExtractStoryFromResponse(responseText, currentProvider);
 
             if (!string.IsNullOrEmpty(storyJson))
             {
@@ -120,13 +142,23 @@ public class LLMStoryGenerator : MonoBehaviour
 
     private string BuildSystemPrompt()
     {
+        // config 또는 override 값 사용
+        List<string> currentCharacters = useOverride ? availableCharacters :
+            (config != null && config.availableCharacters.Length > 0 ? new List<string>(config.availableCharacters) : availableCharacters);
+
+        List<string> currentBackgrounds = useOverride ? availableBackgrounds :
+            (config != null && config.availableBackgrounds.Length > 0 ? new List<string>(config.availableBackgrounds) : availableBackgrounds);
+
+        List<string> currentLooks = useOverride ? availableLooks :
+            (config != null && config.availableLooks.Length > 0 ? new List<string>(config.availableLooks) : availableLooks);
+
         StringBuilder sb = new StringBuilder();
         sb.AppendLine("You are a visual novel story writer. You will generate story scenes that can be rendered as a visual novel.");
         sb.AppendLine();
         sb.AppendLine("Available resources:");
-        sb.AppendLine($"- Characters: {string.Join(", ", availableCharacters)}");
-        sb.AppendLine($"- Backgrounds: {string.Join(", ", availableBackgrounds)}");
-        sb.AppendLine($"- Character looks: {string.Join(", ", availableLooks)}");
+        sb.AppendLine($"- Characters: {string.Join(", ", currentCharacters)}");
+        sb.AppendLine($"- Backgrounds: {string.Join(", ", currentBackgrounds)}");
+        sb.AppendLine($"- Character looks: {string.Join(", ", currentLooks)}");
         sb.AppendLine();
         sb.AppendLine("Output ONLY a valid JSON array of dialogue entries. Each entry should have:");
         sb.AppendLine("- char1Name: character name (optional)");
@@ -170,28 +202,20 @@ public class LLMStoryGenerator : MonoBehaviour
 
     private UnityWebRequest CreateOpenAIRequest(string systemPrompt, string userPrompt)
     {
-        var requestData = new
-        {
-            model = this.model,
-            messages = new[]
-            {
-                new { role = "system", content = systemPrompt },
-                new { role = "user", content = userPrompt }
-            },
-            temperature = this.temperature,
-            max_tokens = this.maxTokens
-        };
+        // config 또는 override 값 사용
+        string currentApiKey = useOverride ? apiKey : (config != null ? config.apiKey : "");
+        string currentModel = useOverride ? model : (config != null ? config.model : "gpt-4o-mini");
+        float currentTemp = useOverride ? temperature : (config != null ? config.temperature : 0.8f);
+        int currentMaxTokens = useOverride ? maxTokens : (config != null ? config.maxTokens : 1000);
 
-        string jsonData = JsonUtility.ToJson(requestData);
-        // Unity's JsonUtility doesn't handle arrays well, so we'll construct manually
-        jsonData = $@"{{
-            ""model"": ""{this.model}"",
+        string jsonData = $@"{{
+            ""model"": ""{currentModel}"",
             ""messages"": [
                 {{""role"": ""system"", ""content"": {EscapeJson(systemPrompt)}}},
                 {{""role"": ""user"", ""content"": {EscapeJson(userPrompt)}}}
             ],
-            ""temperature"": {this.temperature},
-            ""max_tokens"": {this.maxTokens}
+            ""temperature"": {currentTemp},
+            ""max_tokens"": {currentMaxTokens}
         }}";
 
         byte[] bodyRaw = Encoding.UTF8.GetBytes(jsonData);
@@ -200,21 +224,27 @@ public class LLMStoryGenerator : MonoBehaviour
         request.uploadHandler = new UploadHandlerRaw(bodyRaw);
         request.downloadHandler = new DownloadHandlerBuffer();
         request.SetRequestHeader("Content-Type", "application/json");
-        request.SetRequestHeader("Authorization", $"Bearer {apiKey}");
+        request.SetRequestHeader("Authorization", $"Bearer {currentApiKey}");
 
         return request;
     }
 
     private UnityWebRequest CreateAnthropicRequest(string systemPrompt, string userPrompt)
     {
+        // config 또는 override 값 사용
+        string currentApiKey = useOverride ? apiKey : (config != null ? config.apiKey : "");
+        string currentModel = useOverride ? model : (config != null ? config.model : "claude-3-sonnet-20240229");
+        float currentTemp = useOverride ? temperature : (config != null ? config.temperature : 0.8f);
+        int currentMaxTokens = useOverride ? maxTokens : (config != null ? config.maxTokens : 1000);
+
         string jsonData = $@"{{
-            ""model"": ""{this.model}"",
-            ""max_tokens"": {this.maxTokens},
+            ""model"": ""{currentModel}"",
+            ""max_tokens"": {currentMaxTokens},
             ""system"": {EscapeJson(systemPrompt)},
             ""messages"": [
                 {{""role"": ""user"", ""content"": {EscapeJson(userPrompt)}}}
             ],
-            ""temperature"": {this.temperature}
+            ""temperature"": {currentTemp}
         }}";
 
         byte[] bodyRaw = Encoding.UTF8.GetBytes(jsonData);
@@ -223,18 +253,18 @@ public class LLMStoryGenerator : MonoBehaviour
         request.uploadHandler = new UploadHandlerRaw(bodyRaw);
         request.downloadHandler = new DownloadHandlerBuffer();
         request.SetRequestHeader("Content-Type", "application/json");
-        request.SetRequestHeader("x-api-key", apiKey);
+        request.SetRequestHeader("x-api-key", currentApiKey);
         request.SetRequestHeader("anthropic-version", "2023-06-01");
 
         return request;
     }
 
-    private string ExtractStoryFromResponse(string responseJson)
+    private string ExtractStoryFromResponse(string responseJson, LLMProvider currentProvider)
     {
         try
         {
             // OpenAI 응답 파싱
-            if (provider == LLMProvider.OpenAI)
+            if (currentProvider == LLMProvider.OpenAI)
             {
                 // "content": "..." 부분 추출
                 int contentStart = responseJson.IndexOf("\"content\":");
@@ -257,7 +287,7 @@ public class LLMStoryGenerator : MonoBehaviour
                 return ExtractJsonArray(content);
             }
             // Anthropic 응답 파싱
-            else if (provider == LLMProvider.Anthropic)
+            else if (currentProvider == LLMProvider.Anthropic)
             {
                 // "text": "..." 부분 추출
                 int textStart = responseJson.IndexOf("\"text\":");
