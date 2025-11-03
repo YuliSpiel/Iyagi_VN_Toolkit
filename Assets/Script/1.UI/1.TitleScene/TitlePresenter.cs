@@ -19,6 +19,7 @@ public class TitlePresenter : MonoBehaviour
 
         // 버튼 이벤트 구독
         view.loadButton.onClick.AddListener(OnLoadButtonClicked);
+        view.aimodeButton.onClick.AddListener(OnAIModeButtonClicked);
         view.settingsButton.onClick.AddListener(OnSettingsButtonClicked);
         view.exitButton.onClick.AddListener(OnExitButtonClicked);
 
@@ -65,6 +66,11 @@ public class TitlePresenter : MonoBehaviour
         }
         yield return UIManager.Instance.GlobalFadeOut(1f);
         SceneManager.LoadScene(1);
+    }
+
+    private void OnAIModeButtonClicked()
+    {
+        SceneManager.LoadScene("LLMGameScene");
     }
 
     private void OnSettingsButtonClicked()
